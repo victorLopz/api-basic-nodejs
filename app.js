@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 //Mysql
 //POSTGRESSQL
-const conexion = mysql.createConnection({
+const conexion = mysql.createPool({
     host: 'us-cdbr-east-03.cleardb.com',
     user: 'b8d545eb08c5f4',
     password: '7dd82646',
