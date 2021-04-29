@@ -10,18 +10,22 @@ app.use(bodyParser.json());
 
 //Mysql
 //POSTGRESSQL
-const conexion = mysql.createPool({
-    host: 'us-cdbr-east-03.cleardb.com',
-    user: 'b8d545eb08c5f4',
-    password: '7dd82646',
-    database: 'heroku_075b99ae8ada68b'
+try {
+    const pool = mysql.createPool({
+        host: 'us-cdbr-east-03.cleardb.com',
+        user: 'b8d545eb08c5f4',
+        password: '7dd82646',
+        database: 'heroku_075b99ae8ada68b'
 });
 
-//Revisar la conexion
+pool.query('select 1 + 1', (err, rows) => { return console.log(err) });
+
+/*Revisar la conexion
 conexion.connect( error => {
     if(error) throw error;
     console.log('Base de Datos Ejecutandose con exito');
 })
+*/
 
 app.listen(PORT, ()=>{
     console.log(`server runing on port  ${PORT}`);
@@ -107,3 +111,6 @@ app.delete('/delete/:id', (req, res)=>{
     })
 });
 
+}catch (error) {
+    console.log(error)
+}
