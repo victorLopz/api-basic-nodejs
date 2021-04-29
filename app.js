@@ -3,29 +3,24 @@ const mysql  = require('mysql');
 
 const bodyParser = require('body-parser');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3200;
 const app = express();
 
 app.use(bodyParser.json());
 
 //Mysql
 //POSTGRESSQL
+
 try {
     const pool = mysql.createPool({
-        host: 'us-cdbr-east-03.cleardb.com',
-        user: 'b8d545eb08c5f4',
-        password: '7dd82646',
-        database: 'heroku_075b99ae8ada68b'
+    host: 'us-cdbr-east-03.cleardb.com',
+    user: 'b8d545eb08c5f4',
+    password: '7dd82646',
+    database: 'heroku_075b99ae8ada68b'
 });
 
+//Revisar la pool
 pool.query('select 1 + 1', (err, rows) => { return console.log(err) });
-
-/*Revisar la conexion
-conexion.connect( error => {
-    if(error) throw error;
-    console.log('Base de Datos Ejecutandose con exito');
-})
-*/
 
 app.listen(PORT, ()=>{
     console.log(`server runing on port  ${PORT}`);
@@ -39,7 +34,7 @@ app.get('/', (req, res)=>{
 // TODOS LOS CLIENTES
 app.get('/productos', (req, res)=>{
     const sql = "SELECT * FROM almacen WHERE isVisible = 1";
-    conexion.query(sql, (error, results)=>{
+    pool.query(sql, (error, results)=>{
         if(error) throw error;
         
         if(results.length > 0){
@@ -54,7 +49,7 @@ app.get('/productos/:id', (req, res)=>{
     const {id} = req.params;
     const sql = `SELECT * FROM almacen WHERE IDCodigoAlmacen = ${id}`; 
 
-    conexion.query(sql, (error, result)=>{
+    pool.query(sql, (error, result)=>{
         if(error) throw error;
         
         if(result.length > 0){
@@ -82,7 +77,7 @@ app.post('/add', (req, res)=>{
         Notas: req.body.Notas
     }
 
-    conexion.query(sql, almacenObj, error =>{
+    pool.query(sql, almacenObj, error =>{
         if(error) throw error;
         res.send("Producto creado");
     })
@@ -94,7 +89,7 @@ app.put('/update/:id', (req, res)=>{
     const {NombreArticulo, Codigo1, Codigo2, marca, Modelopresentacion, precioVenta, PrecioCompra, Stock, Notas } = req.body;
     const sql = `UPDATE almacen SET NombreArticulo = '${NombreArticulo}', Codigo1 = '${Codigo1}', Codigo2 = '${Codigo2}', marca = '${marca}', Modelopresentacion = '${Modelopresentacion}', precioVenta = '${precioVenta}', PrecioCompra = '${PrecioCompra}', Stock = '${Stock}', Notas = '${Notas}'  WHERE IDCodigoAlmacen = '${id}'`;
 
-    conexion.query(sql, error =>{
+    pool.query(sql, error =>{
         if(error) throw error;
         res.send("Producto Editado con Exito");
     })
@@ -105,12 +100,12 @@ app.delete('/delete/:id', (req, res)=>{
     const {id} = req.params;
     const sql = `UPDATE almacen SET isVisible = 0 WHERE IDCodigoAlmacen = '${id}'`;
 
-    conexion.query(sql, error =>{
+    pool.query(sql, error =>{
         if(error) throw error;
         res.send("Producto Eliminado con Exito");
     })
 });
 
-}catch (error) {
+} catch (error) {
     console.log(error)
 }
