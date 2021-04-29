@@ -8,12 +8,13 @@ const app = express();
 
 app.use(bodyParser.json());
 
-//Mysql 
+//Mysql
+//POSTGRESSQL
 const conexion = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'nodeapi'
+    host: 'us-cdbr-east-03.cleardb.com',
+    user: 'b8d545eb08c5f4',
+    password: '7dd82646',
+    database: 'heroku_075b99ae8ada68b'
 });
 
 //Revisar la conexion
