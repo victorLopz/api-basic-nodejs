@@ -1,5 +1,3 @@
-# Api_Node
+# api nodejs basic
 Api en Node para Backend Basica con Express
 
-URL desplegada en heroku
-https://apiinnova.herokuapp.com/productos
